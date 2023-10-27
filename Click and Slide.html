@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Click and Slide</title>
+
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+      width: 100%;
+    }
+
+    #header {
+      margin-top: 10px;
+      width: 132px;
+      height: 132px;
+      overflow: hidden;
+      display: flex;
+    }
+
+    .btn {
+      position: absolute;
+      color: white;
+      font-size: 50px;
+      top: 5%;
+      background-color: rgba(255, 255, 255, 0.3);
+      border: 0;
+    }
+
+    #previous {
+      left: 40%;
+    }
+
+    #next {
+      right: 40%;
+    }
+
+    body {
+      background-color: #000066;
+    }
+
+    #zdj {
+      width: 10%;
+      height: 10%;
+    }
+
+    #glowny {
+      width: 540px;
+      height: 540px;
+      background-color: #000066;
+      border: solid 1px white;
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+    .div3 {
+      float: left;
+      background-repeat: no-repeat;
+      width: 180px;
+      height: 180px;
+      overflow: hidden;
+      background-position-x: 0px;
+      background-position-y: 0px;
+    }
+
+    .div4 {
+      float: left;
+      background-repeat: no-repeat;
+      width: 135px;
+      height: 135px;
+      overflow: hidden;
+      background-position-x: 0px;
+      background-position-y: 0px;
+    }
+
+    .div5 {
+      float: left;
+      background-repeat: no-repeat;
+      width: 108px;
+      height: 108px;
+      overflow: hidden;
+      background-position-x: 0px;
+      background-position-y: 0px;
+    }
+
+    .div6 {
+      float: left;
+      background-repeat: no-repeat;
+      width: 90px;
+      height: 90px;
+      overflow: hidden;
+      background-position-x: 0px;
+      background-position-y: 0px;
+    }
+
+    .pusty3 {
+      width: 180px;
+      height: 180px;
+      float: left;
+    }
+
+    .pusty4 {
+      width: 135px;
+      height: 135px;
+      float: left;
+    }
+
+    .pusty5 {
+      width: 108px;
+      height: 108px;
+      float: left;
+    }
+
+    .pusty6 {
+      width: 90px;
+      height: 90px;
+      float: left;
+    }
+
+    #zegar {
+      position: relative;
+      float: left;
+      margin-left: 5%;
+    }
+
+    #tabela {
+      position: relative;
+      float: right;
+      border: 1px solid white;
+      margin-right: 5%;
+      width: 15%;
+      color: white;
+    }
+  </style>
+
+
+</head>
+
+
+<body>
+  <center>
+
+    <button id="previous" class="btn">(-</button>
+
+    <button id="next" class="btn">-)</button>
+    <div id="header" style="width: 135px; height: 135px;">
+      <img src="cat.png" style="width: 135px;height: 135px;">
+      <img src="dog.png" style="width: 135px;height: 135px;">
+      <img src="duck.png" style="width: 135px;height: 135px;">
+      <img src="cat.png" style="width: 135px;height: 135px;">
+    </div>
+
+    <div id="przyciski">
+    </div>
+
+    <div id="zegar">
+      <img src="c0.gif" id="h1" class="czas">
+      <img src="c0.gif" id="h2" class="czas">
+      <img src="colon.gif" class="czas">
+      <img src="c0.gif" id="m1" class="czas">
+      <img src="c0.gif" id="m2" class="czas">
+      <img src="colon.gif" class="czas">
+      <img src="c0.gif" id="s1" class="czas">
+      <img src="c0.gif" id="s2" class="czas">
+      <img src="dot.gif">
+      <img src="c0.gif" id="mi1" class="czas">
+      <img src="c0.gif" id="mi2" class="czas">
+      <img src="c0.gif" id="mi3" class="czas">
+    </div>
+
+    <table id="tabela">
+
+    </table>
+
+    <div id="glowny">
+
+    </div>
+
+
+  </center>
+
+  <script>
+
+    var podejscie = 1;
+    var rozmiar = 9;
+    var NRelement;
+    var obiekt;
+    var tablica1 = [];
+    var tablica2 = [];
+    var tablica3 = [];
+    var tablica4 = [];
+
+    //checkCookie();
+    var backgrounds = ['url(cat.png)', 'url(dog.png)', 'url(duck.png)'];
+
+    window.onload = function () {
+
+      var image = document.getElementById("header");
+      image.style.backgroundImage = 'url(cat.png)';
+      var i = 0;
+      function zmienImg() {
+        i %= backgrounds.length;
+        image.style.backgroundImage = backgrounds[i];
+      }
+      document.getElementById("previous").onclick = function () {
+        i = ((i - 1 < 0) ? backgrounds.length - 1 : i - 1);
+        zmienImg();
+        var licznik = 0;
+        var ilosc1 = Math.floor(document.getElementById("header").scrollLeft);
+        ilosc1 -= 134;
+        if (ilosc1 < 0) {
+          document.getElementById("header").scrollLeft = 405;
+        }
+        var animacja = setInterval(() => {
+          document.getElementById("header").scrollLeft -= 5;
+          licznik++
+          if (licznik == 27) {
+            clearInterval(animacja);
+          }
+
+        }, 10);
+
+      };
+      document.getElementById("next").onclick = function () {
+        i++; zmienImg();
+        var licznik = 0;
+        var ilosc = Math.floor(document.getElementById("header").scrollLeft);
+        var animacja = setInterval(() => {
+          document.getElementById("header").scrollLeft += 5;
+          licznik++
+          if (licznik == 27) {
+            clearInterval(animacja);
+          }
+        }, 10);
+        if (ilosc > 402) {
+          document.getElementById("header").scrollLeft = 0;
+        }
+      };
+    };
+    //..................Stworzenie przycisków....................
+    var cyfra = 3;
+    for (let i = 1; i < 5; i++) {
+      button = document.createElement("button");
+      button.id = "button" + i;
+      button.innerText = cyfra + " x " + cyfra;
+      button.style.margin = "5px";
+      document.getElementById("przyciski").append(button);
+      cyfra++;
+    }
+
+    document.getElementById("button1").addEventListener('click', ZwrotRozmiaru1);
+    document.getElementById("button2").addEventListener('click', ZwrotRozmiaru2);
+    document.getElementById("button3").addEventListener('click', ZwrotRozmiaru3);
+    document.getElementById("button4").addEventListener('click', ZwrotRozmiaru4);
+    document.getElementById("button1").addEventListener('click', mieszaj);
+    document.getElementById("button2").addEventListener('click', mieszaj);
+    document.getElementById("button3").addEventListener('click', mieszaj);
+    document.getElementById("button4").addEventListener('click', mieszaj);
+
+    //............................FUNKCJE............................
+    //............................FUNKCJE............................
+    //............................FUNKCJE............................
+    function pikseleX(x) {
+      return "" + x + "px";
+    }
+
+    function pikseleY(y) {
+      return "" + y + "px";
+    }
+
+    function ZwrotRozmiaru1() {
+      rozmiar = 9;
+      uporzadkujCiastka();
+      plansza(rozmiar);
+    }
+    function ZwrotRozmiaru2() {
+      rozmiar = 16;
+      uporzadkujCiastka();
+      plansza(rozmiar);
+    }
+    function ZwrotRozmiaru3() {
+      rozmiar = 25;
+      uporzadkujCiastka();
+      plansza(rozmiar);
+    }
+
+    function ZwrotRozmiaru4() {
+      rozmiar = 36;
+      uporzadkujCiastka();
+      plansza(rozmiar);
+    }
+
+
+    //.............Funkcja tworząca plansze o podanym rozmiarze............
+    function plansza(rozmiar) {
+
+      document.getElementById("glowny").innerHTML = "";
+
+      //...............Stworzenie divow ze zdjeciem..............
+      for (let i = 1; i < rozmiar + 1; i++) {
+        div = document.createElement("div");
+        div.className = "div" + Math.sqrt(rozmiar);
+        div.id = "div" + i;
+        div.style.backgroundImage = document.getElementById("header").style.backgroundImage;
+        div.addEventListener("click", przesun);
+        div.addEventListener("click", wygrana);
+        document.getElementById("glowny").append(div);
+      }
+
+      var pierwiastek = Math.sqrt(rozmiar);
+
+      //..............Ustawienie pozycji zdjec...................
+      var obrazek;
+      if (rozmiar == 9) {
+        x = 0;
+        y = 0;
+        for (let i = 1; i < 4; i++) {
+          obrazek = document.getElementById("div" + i);
+          obrazek.style.backgroundPositionX = pikseleX(x);
+          obrazek.style.backgroundPositionY = pikseleY(y);
+          x -= 180;
+        }
+        x = 0;
+        y = -180;
+        for (let i = 4; i < 7; i++) {
+          obrazek = document.getElementById("div" + i);
+          obrazek.style.backgroundPositionX = pikseleX(x);
+          obrazek.style.backgroundPositionY = pikseleY(y);
+          x -= 180;
+        }
+        x = 0;
+        y = -360;
+        for (let i = 7; i < 10; i++) {
+          obrazek = document.getElementById("div" + i);
+          obrazek.style.backgroundPositionX = pikseleX(x);
+          obrazek.style.backgroundPositionY = pikseleY(y);
+          x -= 180;
+        }
+        document.getElementById("div9").id = 'pusty';
+        document.getElementById("pusty").style.backgroundImage = "";
+        document.getElementById("pusty").className = 'pusty3';
+
+
+      }
+      if (rozmiar == 16) {
+        x = 0;
+        y = 0;
+        for (let i = 1; i < 5; i++) {
+          obrazek = document.getElementById("div" + i);
+          obrazek.style.backgroundPositionX = pikseleX(x);
+          obrazek.style.backgroundPositionY = pikseleY(y);
+          x -= 135;
+        }
+        x = 0;
+        y = -135;
+        for (let i = 5; i < 9; i++) {
+          obrazek = document.getElementById("div" + i);
+          obrazek.style.backgroundPositionX = pikseleX(x);
+          obrazek.style.backgroundPositionY = pikseleY(y);
+          x -= 135;
+        }
+        x = 0;
+        y = -270;
+        for (let i = 9; i < 13; i++) {
+          obrazek = document.getElementById("div" + i);
+          obrazek.style.backgroundPositionX = pikseleX(x);
+          obrazek.style.backgroundPositionY = pikseleY(y);
+          x -= 135;
+        }
+        x = 0;
+        y = -405;
+        for (let i = 13; i < 17; i++) {
+          obrazek = document.getElementById("div" + i);
+          obrazek.style.backgroundPositionX = pikseleX(x);
+          obrazek.style.backgroundPositionY = pikseleY(y);
+          x -= 135;
+        }
+        document.getElementById("div16").id = 'pusty';
+        document.getElementById("pusty").style.backgroundImage = "";
+        document.getElementById("pusty").className = 'pusty4';
+      }
+      if (rozmiar == 25) {
+        x = 0;
+        y = 0;
+        for (let i = 1; i < 6; i++) {
+          obrazek = document.getElementById("div" + i);
+          obrazek.style.backgroundPositionX = pikseleX(x);
+          obrazek.style.backgroundPositionY = pikseleY(y);
+          x -= 108;
+        }
+        x = 0;
+        y = -108;
+        for (let i = 6; i < 11; i++) {
+          obrazek = document.getElementById("div" + i);
+          obrazek.style.backgroundPositionX = pikseleX(x);
+          obrazek.style.backgroundPositionY = pikseleY(y);
+          x -= 108;
+        }
+        x = 0;
+        y = -216;
+        for (let i = 11; i < 16; i++) {
+          obrazek = document.getElementById("div" + i);
+          obrazek.style.backgroundPositionX = pikseleX(x);
+          obrazek.style.backgroundPositionY = pikseleY(y);
+          x -= 108;
+        }
+        x = 0;
+        y = -324;
+        for (let i = 16; i < 21; i++) {
+          obrazek = document.getElementById("div" + i);
+          obrazek.style.backgroundPositionX = pikseleX(x);
+          obrazek.style.backgroundPositionY = pikseleY(y);
+          x -= 108;
+        }
+        x = 0;
+        y = -432;
+        for (let i = 21; i < 26; i++) {
+          obrazek = document.getElementById("div" + i);
+          obrazek.style.backgroundPositionX = pikseleX(x);
+          obrazek.style.backgroundPositionY = pikseleY(y);
+          x -= 108;
+        }
+        document.getElementById("div25").id = 'pusty';
+        document.getElementById("pusty").style.backgroundImage = "";
+        document.getElementById("pusty").className = 'pusty5';
+      }
+      if (rozmiar == 36) {
+        x = 0;
+        y = 0;
+        for (let i = 1; i < 7; i++) {
+          obrazek = document.getElementById("div" + i);
+          obrazek.style.backgroundPositionX = pikseleX(x);
+          obrazek.style.backgroundPositionY = pikseleY(y);
+          x -= 90;
+        }
+        x = 0;
+        y = -90;
+        for (let i = 7; i < 13; i++) {
+          obrazek = document.getElementById("div" + i);
+          obrazek.style.backgroundPositionX = pikseleX(x);
+          obrazek.style.backgroundPositionY = pikseleY(y);
+          x -= 90;
+        }
+        x = 0;
+        y = -180;
+        for (let i = 13; i < 19; i++) {
+          obrazek = document.getElementById("div" + i);
+          obrazek.style.backgroundPositionX = pikseleX(x);
+          obrazek.style.backgroundPositionY = pikseleY(y);
+          x -= 90;
+        }
+        x = 0;
+        y = -270;
+        for (let i = 19; i < 25; i++) {
+          obrazek = document.getElementById("div" + i);
+          obrazek.style.backgroundPositionX = pikseleX(x);
+          obrazek.style.backgroundPositionY = pikseleY(y);
+          x -= 90;
+        }
+        x = 0;
+        y = -360;
+        for (let i = 25; i < 31; i++) {
+          obrazek = document.getElementById("div" + i);
+          obrazek.style.backgroundPositionX = pikseleX(x);
+          obrazek.style.backgroundPositionY = pikseleY(y);
+          x -= 90;
+        }
+        x = 0;
+        y = -450;
+        for (let i = 31; i < 37; i++) {
+          obrazek = document.getElementById("div" + i);
+          obrazek.style.backgroundPositionX = pikseleX(x);
+          obrazek.style.backgroundPositionY = pikseleY(y);
+          x -= 90;
+        }
+        document.getElementById("div36").id = 'pusty';
+        document.getElementById("pusty").style.backgroundImage = "";
+        document.getElementById("pusty").className = 'pusty6';
+      }
+
+    }
+
+    //.....................Funkcja przesuwająca klocek..........................
+
+    function przesun(e) {
+      var elementID;
+      var pustyID;
+      if (e.currentTarget) {
+        elementID = e.currentTarget.id;
+      }
+      else elementID = obiekt.id;
+
+      pustyID = document.getElementById('pusty').id;
+
+      if (document.getElementById(elementID).nextSibling != null) {
+        var prawy = document.getElementById(elementID).nextSibling.id;
+      }
+      if (document.getElementById(elementID).previousSibling != null) {
+        var lewy = document.getElementById(elementID).previousSibling.id
+      }
+
+      if (rozmiar == 9) {
+        var poprzednik1 = document.getElementById('glowny').children[2].id;
+        var poprzednik2 = document.getElementById('glowny').children[5].id;
+        var poprzednik3 = "100";
+        var poprzednik4 = "100";
+        var poprzednik5 = "100";
+        var nastepnik1 = document.getElementById('glowny').children[3].id;
+        var nastepnik2 = document.getElementById('glowny').children[6].id;
+        var nastepnik3 = "100";
+        var nastepnik4 = "100";
+        var nastepnik5 = "100";
+      }
+
+      if (rozmiar == 16) {
+        var poprzednik1 = document.getElementById('glowny').children[3].id;
+        var poprzednik2 = document.getElementById('glowny').children[7].id;
+        var poprzednik3 = document.getElementById('glowny').children[11].id;
+        var poprzednik4 = "100";
+        var poprzednik5 = "100";
+        var nastepnik1 = document.getElementById('glowny').children[4].id;
+        var nastepnik2 = document.getElementById('glowny').children[8].id;
+        var nastepnik3 = document.getElementById('glowny').children[12].id
+        var nastepnik4 = "100";
+        var nastepnik5 = "100";
+      }
+
+      if (rozmiar == 25) {
+        var poprzednik1 = document.getElementById('glowny').children[4].id;
+        var poprzednik2 = document.getElementById('glowny').children[9].id;
+        var poprzednik3 = document.getElementById('glowny').children[14].id;
+        var poprzednik4 = document.getElementById('glowny').children[19].id;
+        var poprzednik5 = "100";
+        var nastepnik1 = document.getElementById('glowny').children[5].id;
+        var nastepnik2 = document.getElementById('glowny').children[10].id;
+        var nastepnik3 = document.getElementById('glowny').children[15].id;
+        var nastepnik4 = document.getElementById('glowny').children[20].id
+        nastepnik5 = "100";
+      }
+
+      if (rozmiar == 36) {
+        var poprzednik1 = document.getElementById('glowny').children[5].id;
+        var poprzednik2 = document.getElementById('glowny').children[11].id;
+        var poprzednik3 = document.getElementById('glowny').children[17].id;
+        var poprzednik4 = document.getElementById('glowny').children[23].id;
+        var poprzednik5 = document.getElementById('glowny').children[29].id;
+        var nastepnik1 = document.getElementById('glowny').children[6].id;
+        var nastepnik2 = document.getElementById('glowny').children[12].id;
+        var nastepnik3 = document.getElementById('glowny').children[18].id;
+        var nastepnik4 = document.getElementById('glowny').children[24].id;
+        var nastepnik5 = document.getElementById('glowny').children[30].id;
+      }
+
+
+      if (lewy == pustyID && lewy != null && poprzednik1 != lewy && poprzednik2 != lewy && poprzednik3 != lewy && poprzednik4 != lewy && poprzednik5 != lewy) {
+        var e1 = document.getElementById(elementID);
+        var e2 = document.getElementById(lewy);
+        e1.parentNode.insertBefore(e1, e2);
+      }
+      else if (prawy == pustyID && prawy != null && nastepnik1 != prawy && nastepnik2 != prawy && nastepnik3 != prawy && nastepnik4 != prawy && nastepnik5 != prawy) {
+        var e1 = document.getElementById(elementID);
+        var e2 = document.getElementById(prawy);
+        e1.parentNode.insertBefore(e2, e1);
+      }
+      //.................ZAZNACZENIE ELEMENTU PUSTEGO NA DOLE...................
+      else {
+        if (document.getElementById(elementID).nextSibling != null) {
+          var dol = document.getElementById(elementID).nextSibling.id;
+          if (document.getElementById(dol).nextSibling != null) {
+            dol = document.getElementById(dol).nextSibling.id;
+            if (document.getElementById(dol).nextSibling != null) {
+              dol = document.getElementById(dol).nextSibling.id;
+              if (rozmiar >= 16 && dol != null) {
+                if (document.getElementById(dol).nextSibling != null) {
+                  dol = document.getElementById(dol).nextSibling.id;
+                } else dol = null;
+              }
+              if (rozmiar >= 25 && dol != null) {
+                if (document.getElementById(dol).nextSibling != null) {
+                  dol = document.getElementById(dol).nextSibling.id;
+                } else dol = null;
+              }
+              if (rozmiar == 36 && dol != null) {
+                if (document.getElementById(dol).nextSibling != null) {
+                  dol = document.getElementById(dol).nextSibling.id;
+                } else dol = null;
+              }
+            } else dol = null;
+          } else dol = null;
+        } else dol = null;
+        //.................ZAZNACZENIE ELEMENTU PUSTEGO U GORY...................
+        if (document.getElementById(elementID).previousSibling != null) {
+          var gora = document.getElementById(elementID).previousSibling.id;
+          if (document.getElementById(gora).previousSibling != null) {
+            gora = document.getElementById(gora).previousSibling.id;
+            if (document.getElementById(gora).previousSibling != null) {
+              gora = document.getElementById(gora).previousSibling.id;
+              if (rozmiar >= 16 && gora != null) {
+                if (document.getElementById(gora).previousSibling != null) {
+                  gora = document.getElementById(gora).previousSibling.id;
+                } else gora = null;
+              }
+              if (rozmiar >= 25 && gora != null) {
+                if (document.getElementById(gora).previousSibling != null) {
+                  gora = document.getElementById(gora).previousSibling.id;
+                } else gora = null;
+              }
+              if (rozmiar == 36 && gora != null) {
+                if (document.getElementById(gora).previousSibling != null) {
+                  gora = document.getElementById(gora).previousSibling.id;
+                } else gora = null;
+              }
+            } else gora = null;
+          } else gora = null;
+        } else gora = null;
+        //.......................WARUNEK SPRAWDZANIA DLA DOLU A POTEM GORY I ZAMIANA.....................
+        if (dol == pustyID && dol != null) {
+          var zamiennik = document.getElementById(elementID).nextSibling.id;
+          var zamiennik2;
+
+          var e1 = document.getElementById(elementID);
+          var e2 = document.getElementById(zamiennik);
+          e1.parentNode.insertBefore(e2, e1);
+
+          zamiennik = document.getElementById(zamiennik).nextSibling.id;
+          zamiennik2 = document.getElementById(zamiennik).nextSibling.id;
+          e1 = document.getElementById(zamiennik);
+          e2 = document.getElementById(zamiennik2);
+          e1.parentNode.insertBefore(e2, e1);
+
+          zamiennik = document.getElementById(zamiennik).nextSibling.id;
+          e2 = document.getElementById(zamiennik);
+          e1.parentNode.insertBefore(e2, e1);
+
+          if (rozmiar >= 16) {
+            zamiennik = document.getElementById(zamiennik).nextSibling.id;
+            e2 = document.getElementById(zamiennik).nextSibling;
+            e1.parentNode.insertBefore(e2, e1);
+
+            if (rozmiar >= 25) {
+              e2 = document.getElementById(e1.id).nextSibling;
+              e1.parentNode.insertBefore(e2, e1);
+              if (rozmiar == 36) {
+                e2 = document.getElementById(e1.id).nextSibling;
+                e1.parentNode.insertBefore(e2, e1);
+                e1 = document.getElementById(e2.id).previousSibling;
+                e1.parentNode.insertBefore(e1, e2);
+              }
+              e1 = document.getElementById(e2.id).previousSibling;
+              e1.parentNode.insertBefore(e1, e2);
+            }
+            zamiennik = document.getElementById(e2.id).previousSibling.id;
+            e1 = e2;
+            e2 = document.getElementById(zamiennik);
+            e1.parentNode.insertBefore(e1, e2);
+            e2 = document.getElementById(e2.id).previousSibling;
+          }
+
+          zamiennik = document.getElementById(e2.id).previousSibling.id;
+          e1 = e2;
+          e2 = document.getElementById(zamiennik);
+          e1.parentNode.insertBefore(e1, e2);
+
+          zamiennik = document.getElementById(e1.id).previousSibling.id;
+          e2 = e1;
+          e1 = document.getElementById(zamiennik);
+          e1.parentNode.insertBefore(e2, e1);
+          if (rozmiar >= 25) {
+            e1 = document.getElementById(e2.id).previousSibling;
+            e1.parentNode.insertBefore(e2, e1);
+          }
+          if (rozmiar == 36) {
+            e1 = document.getElementById(e2.id).previousSibling;
+            e1.parentNode.insertBefore(e2, e1);
+          }
+        }
+        else if (gora == pustyID && gora != null) {
+          var zamiennik = document.getElementById(elementID).previousSibling.id;
+          var e1 = document.getElementById(elementID);
+          var e2 = document.getElementById(zamiennik);
+          e1.parentNode.insertBefore(e1, e2);
+
+          zamiennik = document.getElementById(e1.id).previousSibling.id;
+          e1 = e2;
+          e2 = document.getElementById(zamiennik);
+          e1.parentNode.insertBefore(e2, e1);
+
+          zamiennik = document.getElementById(e2.id).previousSibling.id;
+          e1 = e2;
+          e2 = document.getElementById(zamiennik);
+          e1 = document.getElementById(e2.id).previousSibling;
+          e1.parentNode.insertBefore(e2, e1);
+
+          if (rozmiar >= 16) {
+            e1 = document.getElementById(e2.id).previousSibling;
+            e1.parentNode.insertBefore(e2, e1);
+            if (rozmiar >= 25) {
+              e1 = document.getElementById(e2.id).previousSibling;
+              e1.parentNode.insertBefore(e2, e1);
+              if (rozmiar == 36) {
+                e1 = document.getElementById(e2.id).previousSibling;
+                e1.parentNode.insertBefore(e2, e1);
+                e2 = document.getElementById(e1.id).nextSibling;
+                e1.parentNode.insertBefore(e2, e1);
+              }
+              e2 = document.getElementById(e1.id).nextSibling;
+              e1.parentNode.insertBefore(e2, e1);
+            }
+            e2 = document.getElementById(e1.id).nextSibling;
+            e1.parentNode.insertBefore(e2, e1);
+          }
+
+          e2 = document.getElementById(e1.id).nextSibling;
+          e1.parentNode.insertBefore(e2, e1);
+          e2 = document.getElementById(e1.id).nextSibling;
+          e1.parentNode.insertBefore(e2, e1);
+        }
+
+      }
+    }
+
+    function wygrana() {
+      var licz = 0;
+      if (document.getElementById("glowny").lastChild.id == "pusty") {
+        dzieci = document.getElementById("glowny").children;
+        for (i = 1; i < rozmiar; i++) {
+          var pozcyja = dzieci[i - 1].id;
+          if (pozcyja == "div" + i) {
+            licz++
+          }
+        }
+        if (licz == rozmiar - 1) {
+          clearInterval(zegar);
+          wynik = godziny + ":" + minuty + ":" + sekundy + "." + milisek;
+          console.log(wynik);
+          setTimeout(() => {
+            alert("Wygrałeś z czasem " + String(wynik));
+            ZEGAR.ResetZegar();
+            var nick = prompt("Podaj nick");
+            var dane = nick + "," + wynik + "," + rozmiar;
+            setCookie("p" + String(podejscie), dane);
+            uporzadkujCiastka();
+
+          }, 500);
+          podejscie++;
+          setCookie("liczba", podejscie);
+          for (let i = 1; i < rozmiar; i++) {
+            document.getElementById("div" + i).removeEventListener("click", przesun);
+            document.getElementById("div" + i).removeEventListener("click", wygrana);
+          }
+        }
+      }
+    }
+
+    function mieszaj() {
+      var licznik = 0;
+      var numer = 0;
+      var mieszaj = setInterval(() => {
+        ZEGAR.ResetZegar();
+        NRelement = (Math.floor(Math.random() * 4 + 1));
+        if (NRelement == 1 && document.getElementById('pusty').nextSibling != null) {
+          obiekt = document.getElementById('pusty').nextSibling;
+          przesun(obiekt);
+        }
+
+        if (NRelement == 2 && document.getElementById('pusty').previousSibling != null) {
+          obiekt = document.getElementById('pusty').previousSibling;
+          przesun(obiekt);
+        }
+
+        if (NRelement == 3 && document.getElementById('pusty').nextSibling != null) {
+          obiekt = document.getElementById('pusty').nextSibling;
+          if (obiekt.nextSibling != null) {
+            obiekt = obiekt.nextSibling;
+            if (obiekt.nextSibling != null) {
+              obiekt = obiekt.nextSibling;
+              if (rozmiar >= 16 && obiekt != null) {
+                if (obiekt.nextSibling != null) {
+                  obiekt = obiekt.nextSibling;
+                } else obiekt = null;
+              }
+              if (rozmiar >= 25 && obiekt != null) {
+                if (obiekt.nextSibling != null) {
+                  obiekt = obiekt.nextSibling;
+                } else obiekt = null;
+              }
+              if (rozmiar == 36 && obiekt != null) {
+                if (obiekt.nextSibling != null) {
+                  obiekt = obiekt.nextSibling;
+                } else obiekt = null;
+              }
+
+            } else obiekt = null;
+          } else obiekt = null;
+          if (obiekt != null) {
+            przesun(obiekt);
+          }
+        }
+        if (NRelement == 4 && document.getElementById('pusty').previousSibling != null) {
+          obiekt = document.getElementById('pusty').previousSibling;
+          if (obiekt.previousSibling != null) {
+            obiekt = obiekt.previousSibling;
+            if (obiekt.previousSibling != null) {
+              obiekt = obiekt.previousSibling;
+              if (rozmiar >= 16 && obiekt != null) {
+                if (obiekt.previousSibling != null) {
+                  obiekt = obiekt.previousSibling;
+                } else obiekt = null;
+              }
+              if (rozmiar >= 25 && obiekt != null) {
+                if (obiekt.previousSibling != null) {
+                  obiekt = obiekt.previousSibling;
+                } else obiekt = null;
+              }
+              if (rozmiar == 36 && obiekt != null) {
+                if (obiekt.previousSibling != null) {
+                  obiekt = obiekt.previousSibling;
+                } else obiekt = null;
+              }
+            } else obiekt = null;
+          } else obiekt = null;
+          if (obiekt != null) {
+            przesun(obiekt);
+          }
+        }
+        licznik++;
+        if (licznik == rozmiar * 10) {
+          clearInterval(mieszaj);
+          ZEGAR.startZegar();
+        }
+      }, 20);
+
+    }
+
+    var ZEGAR = {
+      startZegar: function () {
+        poczatek = new Date();
+        zegar = setInterval(() => {
+          akCzas = new Date();
+          czas = akCzas - poczatek;
+          sekundy = 0;
+          minuty = 0;
+          godziny = 0;
+          milisek = czas % 1000;
+          czas -= milisek;
+
+          if (czas != 0) {
+            while (parseInt(czas / 1000) != 0) {
+              czas -= 1000;
+              sekundy++;
+
+              if (sekundy == 60) {
+                minuty++;
+                sekundy = 0;
+              }
+              if (minuty == 60) {
+                godziny++;
+                minuty = 0;
+              }
+            }
+          }
+          milisek = String(milisek);
+          while (milisek.length != 3) {
+            milisek = "0" + milisek;
+          }
+          sekundy = String(sekundy);
+          while (sekundy.length != 2) {
+            sekundy = "0" + sekundy;
+          }
+          minuty = String(minuty);
+          while (minuty.length != 2) {
+            minuty = "0" + minuty;
+          }
+          godziny = String(godziny);
+          while (godziny.length != 2) {
+            godziny = "0" + godziny;
+          }
+
+          document.getElementById("h1").src = "c" + godziny[0] + ".gif";
+          document.getElementById("h2").src = "c" + godziny[1] + ".gif";
+          document.getElementById("m1").src = "c" + minuty[0] + ".gif";
+          document.getElementById("m2").src = "c" + minuty[1] + ".gif";
+          document.getElementById("s1").src = "c" + sekundy[0] + ".gif";
+          document.getElementById("s2").src = "c" + sekundy[1] + ".gif";
+          document.getElementById("mi1").src = "c" + milisek[0] + ".gif";
+          document.getElementById("mi2").src = "c" + milisek[1] + ".gif";
+          document.getElementById("mi3").src = "c" + milisek[2] + ".gif";
+        }, 1);
+      },
+
+      ResetZegar: function () {
+        clearInterval(zegar);
+        czas = 0;
+        document.getElementById("h1").src = "c0.gif";
+        document.getElementById("h2").src = "c0.gif";
+        document.getElementById("m1").src = "c0.gif";
+        document.getElementById("m2").src = "c0.gif";
+        document.getElementById("s1").src = "c0.gif";
+        document.getElementById("s2").src = "c0.gif";
+        document.getElementById("mi1").src = "c0.gif";
+        document.getElementById("mi2").src = "c0.gif";
+        document.getElementById("mi3").src = "c0.gif";
+        godziny = 0;
+        minuty = 0;
+        sekundy = 0;
+        milisek = 0;
+      },
+    }
+
+    function setCookie(cname, cvalue, exdays) {
+      var d = new Date();
+      d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+      var expires = "expires=" + d.toUTCString();
+      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+    function getCookie(cname) {
+      var name = cname + "=";
+      var decodedCookie = decodeURIComponent(document.cookie);
+      var ca = decodedCookie.split(';');
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
+    }
+    function checkCookie() {
+      var ciastko = getCookie("liczba");
+      if (ciastko != "") {
+        podejscie = parseInt(getCookie("liczba"));
+      } else {
+        {
+          setCookie("liczba", podejscie, 365);
+        }
+      }
+    }
+
+    function uporzadkujCiastka() {
+      var j = 0;
+      var k = 0;
+      var l = 0;
+      var p = 0;
+      for (let i = 1; i < podejscie + 1; i++) {
+        daneCiastka = getCookie("p" + String(i + 1)).split(",");
+        //console.log(daneCiastka);
+        nazwagracza = daneCiastka[0];
+        wynikczasu = daneCiastka[1];
+        rozmiargrania = daneCiastka[2];
+        if (9 == rozmiargrania) {
+          tablica1[j] = wynikczasu + " - " + nazwagracza;
+          j++;
+        }
+        if (16 == rozmiargrania) {
+          tablica2[k] = wynikczasu + " - " + nazwagracza;
+          k++;
+        }
+        if (25 == rozmiargrania) {
+          tablica3[l] = wynikczasu + " - " + nazwagracza;
+          l++;
+        }
+        if (36 == rozmiargrania) {
+          tablica4[p] = wynikczasu + " - " + nazwagracza;
+          p++;
+        }
+        tablica1.sort();
+        tablica2.sort();
+        tablica3.sort();
+        tablica4.sort();
+        // stworzTabele();
+      }
+    }
+
+    function stworzTabele() {
+
+      document.getElementById('tabela').innerHTML = "";
+      for (var i = 1; i < 11 + 1; i++) {
+        var wiersz = document.createElement("tr");
+        var pole = document.createElement("td");
+        if (rozmiar == 9)
+          pole.innerText = tablica1[i - 1];
+        if (rozmiar == 16)
+          pole.innerText = tablica2[i - 1];
+        if (rozmiar == 25)
+          pole.innerText = tablica3[i - 1];
+        if (rozmiar == 36)
+          pole.innerText = tablica4[i - 1];
+        wiersz.appendChild(pole);
+        document.getElementById("tabela").appendChild(wiersz);
+      }
+
+    }
+
+
+
+  </script>
+
+
+</body>
+
+</html>
